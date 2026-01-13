@@ -1,6 +1,5 @@
 package cc.silk.module.modules.player;
 
-import cc.silk.event.impl.input.HandleInputEvent;
 import cc.silk.event.impl.player.TickEvent;
 import cc.silk.module.Category;
 import cc.silk.module.Module;
@@ -25,7 +24,7 @@ public final class AutoDoubleHand extends Module {
     }
 
     @EventHandler
-    private void onTick(HandleInputEvent event) {
+    private void onTick(TickEvent event) {
         if (isNull()) return;
 
         boolean needsTotem = shouldHoldTotem();
