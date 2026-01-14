@@ -13,6 +13,7 @@ import cc.silk.module.modules.render.*;
 import cc.silk.module.modules.movement.AutoFirework;
 import cc.silk.module.modules.movement.AutoHeadHitter;
 import cc.silk.module.modules.movement.KeepSprint;
+import cc.silk.module.modules.movement.SnapTap;
 import cc.silk.module.modules.movement.Sprint;
 import lombok.Getter;
 
@@ -62,7 +63,7 @@ public final class ModuleManager {
                 new KeyCrystal(), new KeyAnchor(), new KeyLava(), new AutoPot(), //new StunCob(),
                 new AutoCart(), new CrystalOptimizer(), new Criticals());
         // Movement
-        add(new Sprint(), new AutoFirework(), new AutoHeadHitter(), new KeepSprint());
+        add(new Sprint(), new AutoFirework(), new AutoHeadHitter(), new KeepSprint(), new SnapTap());
 
         // Player
         add(
