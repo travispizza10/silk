@@ -37,12 +37,29 @@ public class ConfigPanel {
     private String selectedConfig = null;
     private String deleteConfirmConfig = null;
     private long deleteConfirmTime = 0;
+    
+    private static int fileIconImage = -1;
+    private static int downloadIconImage = -1;
+    private static int saveIconImage = -1;
 
     public ConfigPanel(float x, float y, int width) {
         this.x = x;
         this.y = y;
         this.width = width;
+        loadIcons();
         refreshConfigs();
+    }
+    
+    private void loadIcons() {
+        if (fileIconImage == -1) {
+            fileIconImage = NanoVGRenderer.loadImage("assets/silk/textures/icons/file.png");
+        }
+        if (downloadIconImage == -1) {
+            downloadIconImage = NanoVGRenderer.loadImage("assets/silk/textures/icons/download.png");
+        }
+        if (saveIconImage == -1) {
+            saveIconImage = NanoVGRenderer.loadImage("assets/silk/textures/icons/save.png");
+        }
     }
 
     public void refreshConfigs() {
@@ -85,33 +102,41 @@ public class ConfigPanel {
         NanoVGRenderer.drawRect(x, y + HEADER_HEIGHT - CORNER_RADIUS, width, CORNER_RADIUS, headerBg);
 
         float iconSize = 12f;
-        float iconX = Math.round(x + 6 + iconSize / 2f);
-        float iconY = Math.round(y + HEADER_HEIGHT / 2f);
+        float iconX = Math.round(x + 6);
+        float iconY = Math.round(y + (HEADER_HEIGHT - iconSize) / 2f);
         Color iconColor = new Color(accentColor.getRed(), accentColor.getGreen(), accentColor.getBlue(), bgAlpha);
-        NanoVGRenderer.drawIcon("\uf0f6", iconX, iconY, iconSize, iconColor);
+        if (fileIconImage != -1) {
+            NanoVGRenderer.drawImage(fileIconImage, iconX, iconY, iconSize, iconSize, iconColor);
+        }
 
         float fontSize = 10f;
         float textX = Math.round(x + 6 + iconSize + 4);
         float textY = Math.round(y + (HEADER_HEIGHT - fontSize) / 2f);
         NanoVGRenderer.drawText("Configs", textX, textY, fontSize, textColor);
 
-        float loadIconX = Math.round(x + width - 22f);
-        float loadIconY = Math.round(y + HEADER_HEIGHT / 2f);
+        float loadIconSize = 10f;
+        float loadIconX = Math.round(x + width - 24f);
+        float loadIconY = Math.round(y + (HEADER_HEIGHT - loadIconSize) / 2f);
         boolean loadHover = isMouseOver(mouseX, mouseY, x + width - 28f, y, 14f, HEADER_HEIGHT);
         Color loadColor = (selectedConfig != null && loadHover)
                 ? new Color(accentColor.getRed(), accentColor.getGreen(), accentColor.getBlue(), bgAlpha)
                 : new Color(textColor.getRed(), textColor.getGreen(), textColor.getBlue(),
                 selectedConfig != null ? (int) (bgAlpha * 0.7f) : (int) (bgAlpha * 0.3f));
-        NanoVGRenderer.drawIcon("\uf019", loadIconX, loadIconY, 9f, loadColor);
+        if (downloadIconImage != -1) {
+            NanoVGRenderer.drawImage(downloadIconImage, loadIconX, loadIconY, loadIconSize, loadIconSize, loadColor);
+        }
 
-        float saveIconX = Math.round(x + width - 10f);
-        float saveIconY = Math.round(y + HEADER_HEIGHT / 2f);
+        float saveIconSize = 10f;
+        float saveIconX = Math.round(x + width - 12f);
+        float saveIconY = Math.round(y + (HEADER_HEIGHT - saveIconSize) / 2f);
         boolean saveHover = isMouseOver(mouseX, mouseY, x + width - 16f, y, 12f, HEADER_HEIGHT);
         boolean willOverride = selectedConfig != null;
         Color saveColor = (saveHover || willOverride)
                 ? new Color(accentColor.getRed(), accentColor.getGreen(), accentColor.getBlue(), bgAlpha)
                 : new Color(textColor.getRed(), textColor.getGreen(), textColor.getBlue(), (int) (bgAlpha * 0.7f));
-        NanoVGRenderer.drawIcon("\uf0c7", saveIconX, saveIconY, 9f, saveColor);
+        if (saveIconImage != -1) {
+            NanoVGRenderer.drawImage(saveIconImage, saveIconX, saveIconY, saveIconSize, saveIconSize, saveColor);
+        }
 
         float contentY = y + HEADER_HEIGHT;
         int moduleAreaHeight = displayedConfigs * CONFIG_ENTRY_HEIGHT;
